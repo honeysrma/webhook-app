@@ -22,7 +22,7 @@ public class IVRPayloadEntity {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "TRANSID", unique = true, nullable = false)
+    @Column(name = "TRANSID")
     @Min(value = 1, message = "TRANSID greater than 0")
     private int transId;
 
@@ -32,7 +32,7 @@ public class IVRPayloadEntity {
     @Column(name = "CLI")
     private int cli;
 
-    @Column(name = "AgentNo")
+    @Column(name = "AgentNo" , length = 12)
     private String agentNo;
     
     @Column(name = "AgentCallStatus")
@@ -46,10 +46,10 @@ public class IVRPayloadEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date agentCallEndTime;
     
-    @Column(name = "CustomerNo", nullable = false)
+    @Column(name = "CustomerNo", length = 12)
     private String customerNo;
     
-    @Column(name = "CustomerCallStatus", nullable = false)
+    @Column(name = "CustomerCallStatus")
     private String customerCallStatus;
     
     @Column(name = "CustomerCallStartTime")

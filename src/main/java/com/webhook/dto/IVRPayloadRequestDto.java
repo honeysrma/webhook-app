@@ -6,6 +6,8 @@ import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.webhook.converters.MobileNumberDeserializer;
 
 
 public class IVRPayloadRequestDto {
@@ -22,6 +24,7 @@ public class IVRPayloadRequestDto {
     @JsonProperty("CLI")
     private int cli;
 
+    @JsonDeserialize(using = MobileNumberDeserializer.class)
     @JsonProperty("AgentNo")
     private String agentNo;
     
@@ -36,6 +39,7 @@ public class IVRPayloadRequestDto {
     @JsonProperty("AgentCallEndTime")
     private Date agentCallEndTime;
     
+    @JsonDeserialize(using = MobileNumberDeserializer.class)
     @JsonProperty("CustomerNo")
     private String customerNo;
     

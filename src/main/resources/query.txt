@@ -1,0 +1,19 @@
+CREATE TABLE `ivr_payload` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agent_call_end_time` datetime DEFAULT NULL,
+  `agent_call_start_time` datetime DEFAULT NULL,
+  `agent_call_status` varchar(255) DEFAULT NULL,
+  `agent_no` varchar(12) DEFAULT NULL,
+  `call_recordurl` varchar(255) DEFAULT NULL,
+  `cid` int(11) DEFAULT NULL,
+  `cli` int(11) DEFAULT NULL,
+  `customer_call_end_time` datetime DEFAULT NULL,
+  `customer_call_start_time` datetime DEFAULT NULL,
+  `customer_call_status` varchar(255) DEFAULT NULL,
+  `customer_no` varchar(12) DEFAULT NULL,
+  `raw_dataset` longtext,
+  `transid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
+
+INSERT INTO `testdb`.`ivr_payload` (`id`, `agent_call_end_time`, `agent_call_start_time`, `agent_call_status`, `agent_no`, `call_recordurl`, `cid`, `cli`, `customer_call_end_time`, `customer_call_start_time`, `customer_call_status`, `customer_no`, `raw_dataset`, `transid`) VALUES ('1', '2023-07-21 10:25:12', '2023-07-21 10:25:01', 'Answered', '09877012900', 'http://202.164.33.136/ClickToCall/Recorded_Files/recording/CTC_RECORDING/57903_1.mp3', '194', '1725643200', '2023-07-21 10:25:12', '2023-07-21 10:25:09', 'Answered', '08894924284', '{\r\n    \"TRANSID\": \"579033\",\r\n    \"CID\": \"194\",\r\n    \"CLI\": \"1725643200\",\r\n    \"AgentNo\": \"09877012900\",\r\n    \"AgentCallStatus\": \"Answered\",\r\n    \"AgentCallStartTime\": \"21-07-2023 10:25:01\",\r\n    \"AgentCallEndTime\": \"21-07-2023 10:25:12\",\r\n    \"CustomerNo\": \"08894924284\",\r\n    \"CustomerCallStatus\": \"Answered\",\r\n    \"CustomerCallStartTime\": \"21-07-2023 10:25:09\",\r\n    \"CustomerCallEndTime\": \"21-07-2023 10:25:12\",\r\n    \"CallRecordURL\": \"http://202.164.33.136/ClickToCall/Recorded_Files/recording/CTC_RECORDING/57903_1.mp3\"\r\n}', '579033');
