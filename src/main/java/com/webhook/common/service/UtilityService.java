@@ -1,4 +1,4 @@
-package com.webhook.service;
+package com.webhook.common.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -11,6 +11,5 @@ public interface UtilityService {
 	ObjectMapper getObjectMapper();
 
 	ResponseEntity<APIResponseDto> returnErrorMessages(BindingResult result);
-
-
+	
 }

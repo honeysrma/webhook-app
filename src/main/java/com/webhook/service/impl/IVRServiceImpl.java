@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.webhook.common.service.DateUtility;
+import com.webhook.common.service.UtilityService;
 import com.webhook.constants.UtilConstant;
 import com.webhook.dto.APIResponseDto;
 import com.webhook.dto.APIResponseDto.APIResponseBuilder;
@@ -18,7 +20,6 @@ import com.webhook.entity.IVRPayloadEntity;
 import com.webhook.mapper.IVRPayloadMapper;
 import com.webhook.repositories.IVRPayloadRepository;
 import com.webhook.service.IVRService;
-import com.webhook.service.UtilityService;
 
 @Service
 public class IVRServiceImpl implements IVRService {
@@ -34,6 +35,9 @@ public class IVRServiceImpl implements IVRService {
 	@Autowired
 	private IVRPayloadRepository ivrPayloadRepository;
 	
+	@Autowired
+	private DateUtility dateUtils;
+	
 	@Override
 	public APIResponseDto insertIVRPayload(String reqPayload) {
 		IVRPayloadRequestDto reqDto = null;
@@ -44,6 +48,8 @@ public class IVRServiceImpl implements IVRService {
 			reqDto.setRawDataSet(reqPayload);
 			
 			IVRPayloadEntity entityPayloadEntity = ivrPayloadMapper.dtoToEntity(reqDto);
+			entityPayloadEntity.setCreatedDate(DateUtility.getSystemCurrentDateTime());
+			entityPayloadEntity.setUpdatedDate(DateUtility.getSystemCurrentDateTime());
 			entityPayloadEntity = ivrPayloadRepository.save(entityPayloadEntity);
 			if(Objects.nonNull(entityPayloadEntity) && entityPayloadEntity.getId()>0) {
 				return responseBuilder.withMessage(UtilConstant.SUCCESS)

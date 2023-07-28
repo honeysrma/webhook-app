@@ -66,6 +66,14 @@ public class IVRPayloadEntity {
     @Column(name = "raw_dataset")
     @Lob
     private String rawDataSet;
+    
+    @Column(name = "createdDate", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+    
+    @Column(name = "updatedDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedDate;
 
 	public int getId() {
 		return id;
@@ -177,6 +185,22 @@ public class IVRPayloadEntity {
 
 	public void setRawDataSet(String rawDataSet) {
 		this.rawDataSet = rawDataSet;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
         
 }

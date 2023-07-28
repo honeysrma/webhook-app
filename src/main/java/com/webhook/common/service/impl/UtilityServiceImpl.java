@@ -1,4 +1,4 @@
-package com.webhook.service.impl;
+package com.webhook.common.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webhook.common.service.UtilityService;
 import com.webhook.dto.APIResponseDto;
 import com.webhook.dto.APIResponseDto.APIResponseBuilder;
-import com.webhook.service.UtilityService;
 
 @Service
 public class UtilityServiceImpl implements UtilityService {
@@ -36,4 +36,5 @@ public class UtilityServiceImpl implements UtilityService {
             .withData(errors);
             return ResponseEntity.badRequest().body(responseBuilder.build());
  	}
+	
 }
