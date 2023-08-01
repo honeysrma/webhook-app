@@ -24,6 +24,7 @@ public class CoachConnectDTO implements Serializable {
 
 	@JsonIgnore
 	private Long idMstUsers;
+	private String customerName;
 
 	private Long mobileNumberCustomer;
 
@@ -102,6 +103,14 @@ public class CoachConnectDTO implements Serializable {
 
 	public void setIdMstUsers(Long idMstUsers) {
 		this.idMstUsers = idMstUsers;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 }

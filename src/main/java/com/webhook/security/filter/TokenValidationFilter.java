@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.webhook.common.service.DateUtility;
 import com.webhook.common.service.UtilityService;
+import com.webhook.constants.AppConstants;
 import com.webhook.constants.UtilConstant;
 import com.webhook.dto.APIResponseDto.APIResponseBuilder;
 import com.webhook.dto.OAuthTokenDto;
@@ -44,12 +46,15 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 			return;
 		}
 		
-		String tokenHeader = request.getHeader("Authorization");
+		String tokenHeader = request.getHeader(UtilConstant.AUTHORIZATION);
 		try {
-			 if (tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
+			 if (tokenHeader != null && tokenHeader.startsWith(UtilConstant.BEARER+UtilConstant.SPACE)) {
 		            String token = tokenHeader.substring(7); // Remove "Bearer " prefix
 		            if (authTokenService.isTokenValid(token)) {
 		            	OAuthTokenDto authTokenDto  = authTokenService.findTokenDtoByToken(token);
+		            	if(authTokenDto.getExpiryTime().compareTo(DateUtility.getSystemCurrentDateTime())<1 ) {
+		            		throw new NotFoundException("Expired Token!");
+		            	}
 		                // Check if the user exists in the database
 		                UserDto user = userService.findDtoByUserId(authTokenDto.getUserId());
 		                if (user != null) {

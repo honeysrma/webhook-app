@@ -9,6 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -45,8 +48,11 @@ public class CoachConnectEntity {
 	@Column(name = "mobile_number_coach", nullable = false)
 	private Long mobileNumberCoach;
 
-	@Column(name = "id_mst_users", nullable = false)
-	private Integer idMstUsers;
+	//@Column(name = "id_mst_users", nullable = false)
+	//private Integer idMstUsers;
+	@OneToOne
+	@JoinColumn(name = "id_mst_users", referencedColumnName = "id_mst_users")
+	private UserEntity user;
 
 	@Column(name = "mobile_number_customer", nullable = false)
 	private Long customerMobileNumber;
@@ -197,11 +203,12 @@ public class CoachConnectEntity {
 		this.mobileNumberCoach = mobileNumberCoach;
 	}
 
-	public Integer getIdMstUsers() {
-		return idMstUsers;
+	public UserEntity getUser() {
+		return user;
 	}
 
-	public void setIdMstUsers(Integer idMstUsers) {
-		this.idMstUsers = idMstUsers;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
+	
 }

@@ -3,6 +3,11 @@ package com.webhook.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.webhook.converters.CustomDateDeserializer;
+import com.webhook.converters.CustomDateSerializer;
+
 public class OAuthTokenDto implements Serializable {
 
 	private static final long serialVersionUID = 8887956659649425855L;
@@ -11,7 +16,11 @@ public class OAuthTokenDto implements Serializable {
 	private Long clientId;
 	private String clientIp;
 	private Long userId;
+	
+	@JsonDeserialize(using = CustomDateDeserializer.class)
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date expiryTime;
+	
 	private Date createdAt;
 	private Date updatedAt;
 	private String fullToken;

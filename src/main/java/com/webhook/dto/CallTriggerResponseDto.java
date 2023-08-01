@@ -12,7 +12,7 @@ public class CallTriggerResponseDto implements Serializable{
 	private String status;
 	
 	@JsonAlias("TransId")
-	private String transId;
+	private Long transId;
 	
 	@JsonAlias("Message")
 	private String message;
@@ -25,11 +25,11 @@ public class CallTriggerResponseDto implements Serializable{
 		this.status = status;
 	}
 
-	public String getTransId() {
+	public Long getTransId() {
 		return transId;
 	}
 
-	public void setTransId(String transId) {
+	public void setTransId(Long transId) {
 		this.transId = transId;
 	}
 

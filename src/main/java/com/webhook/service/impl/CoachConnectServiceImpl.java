@@ -1,6 +1,7 @@
 package com.webhook.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,12 @@ import com.webhook.dto.APIResponseDto.APIResponseBuilder;
 import com.webhook.dto.CallTriggerOutBoundRequestDto;
 import com.webhook.dto.CallTriggerResponseDto;
 import com.webhook.dto.CoachConnectDTO;
-import com.webhook.dto.OAuthTokenDto;
 import com.webhook.entity.CoachConnectEntity;
+import com.webhook.entity.LogCtcAdvanceCallApiEntity;
+import com.webhook.enums.ConnectType;
 import com.webhook.mapper.CoachConnectMapper;
 import com.webhook.repositories.CoachConnectRepository;
+import com.webhook.repositories.LogCtcAdvanceCallApiRepository;
 import com.webhook.security.service.AuthTokenService;
 import com.webhook.service.CoachConnectService;
 import com.webhook.service.OutboundIntegrationService;
@@ -52,6 +55,15 @@ public class CoachConnectServiceImpl implements CoachConnectService {
 
 	@Autowired
 	private AuthTokenService authTokenService;
+	
+	@Autowired
+	private DateUtility dateUtility;
+	
+	@Autowired
+	private LogCtcAdvanceCallApiRepository logCallApiRepo;
+	
+	@Autowired
+	private UtilityService utilityService;
 	
 	@Override
 	public APIResponseDto findAllByCoachId(Integer userId) { // id_mst_coach
@@ -83,31 +95,49 @@ public class CoachConnectServiceImpl implements CoachConnectService {
 
 	@Override
 	public APIResponseDto callTriggerOutboundIntegration(Long bookingId) { // id_mst_coach
+		logger.info("callTriggerOutboundIntegration BookingId- {}", bookingId);
 		APIResponseBuilder responseBuilder = new APIResponseDto.APIResponseBuilder();
+		LogCtcAdvanceCallApiEntity logApi = new LogCtcAdvanceCallApiEntity();
+		logApi.setBookingId(bookingId);
+		logApi.setTriggerScheduledTime(DateUtility.getSystemCurrentDateTime());
 		try {
 			Optional<CoachConnectEntity> oe = coachConnectRepository.findById(bookingId);
 			if(oe.isPresent()) {
 				CoachConnectDTO ccDto = coachConnectMapper.EntityToDto(oe.get());
-
+				Date scheduleDT = ccDto.getScheduledConnectTime();
+				logApi.setAcutalScheduledTime(ccDto.getScheduledConnectTime());
+				logApi.setConnectType(ccDto.getConnectType());
+				logApi.setMobileNumberCoach(ccDto.getMobileNumberCoach());
+				logApi.setCustomerMobileNumber(ccDto.getMobileNumberCustomer());
+				
+				Date graceDate = dateUtility.addHourToNewDate(scheduleDT, Integer.parseInt(environment.getProperty(AppConstants.CALL_TRIGGER_API_GRACE_HOUR, UtilConstant.INT_ONE_STRING)));
+				if(graceDate.before(DateUtility.getSystemCurrentDateTime())) {
+					logApi.setValidationMessageText(UtilConstant.TIME_LASPED_MSG);
+					return responseBuilder.withMessage(UtilConstant.TIME_LASPED_MSG)
+					.withStatusCode(HttpStatus.OK.value()).build();
+				}
+				
 				CallTriggerOutBoundRequestDto reqDto = new CallTriggerOutBoundRequestDto();
 				reqDto.setAgentNo(ccDto.getMobileNumberCoach().toString());
 				reqDto.setCustomerNo(ccDto.getMobileNumberCustomer().toString());
 				reqDto.setCampId(environment.getProperty(AppConstants.CALL_TRIGGER_API_CAMPID));
 				reqDto.setCustRefNo(environment.getProperty(AppConstants.CALL_TRIGGER_API_CUSTREFNO));
 				reqDto.setCallsec(String.valueOf(ccDto.getMaxAllowedTime()*60));
-				reqDto.setCallSchType(ccDto.getConnectType().name());
+				reqDto.setCallSchType(ConnectType.SCHEDULE.name());
 				reqDto.setCallTime(DateUtility.dateToString(ccDto.getScheduledConnectTime(), DateUtility.FORMAT_CALL_TRIGGER));
 				
-				OAuthTokenDto odto = authTokenService.findDtoByCoachId(ccDto.getIdMstCoach());
+				logApi.setRawRequestPayload(utilityService.getObjectMapper().writeValueAsString(reqDto));
+				//OAuthTokenDto odto = authTokenService.findDtoByCoachId(ccDto.getIdMstCoach());
 				
-				String authToken = odto.getToken();
+				//String authToken = odto.getToken();
 				Map<String, String> headers = new HashMap<>();
-				headers.put(UtilConstant.AUTHORIZATION, UtilConstant.BEARER+UtilConstant.SPACE+authToken);
+				//headers.put(UtilConstant.TOKEN, authToken);
 				String apiUrl = environment.getProperty(AppConstants.CALL_TRIGGER_API_URL);
 				String headersProp = environment.getProperty(AppConstants.CALL_TRIGGER_API_HEADERS);
 				Map<String, String> apiHeaders = UtilityService.convertStringToMap(headersProp);
 				headers.putAll(apiHeaders);
 				ResponseEntity<Object> responseEntity = outboundIntegrationService.callPost(reqDto, headers, apiUrl);
+				logApi.setRawResponseText(utilityService.getObjectMapper().writeValueAsString(responseEntity));
 				
 				 if (responseEntity.getStatusCode().is2xxSuccessful()) {
 					 Object response = responseEntity.getBody();
@@ -118,6 +148,9 @@ public class CoachConnectServiceImpl implements CoachConnectService {
 				        // Deserialize JSON to MyResponseDto
 				        CallTriggerResponseDto callTriggerResponseDto = OutboundIntegrationService.getObjectMapper()
 				        		.readValue(jsonString, CallTriggerResponseDto.class);
+				        logApi.setStatus(callTriggerResponseDto.getStatus());
+				        logApi.setTransId(callTriggerResponseDto.getTransId());
+				        logApi.setMessage(callTriggerResponseDto.getMessage());
 				        logger.info("callTriggerResponseDto--> {}", callTriggerResponseDto);
 				        responseBuilder.withData(responseEntity);
 			        } else {
@@ -131,10 +164,13 @@ public class CoachConnectServiceImpl implements CoachConnectService {
 				.withStatusCode(HttpStatus.OK.value()).withData(new ArrayList<>());
 			}
 		} catch (Exception e) {
+			logApi.setValidationMessageText(e.getMessage());
 			logger.error("Exception {}-{}", bookingId, e.getMessage());
 			logger.error(e.getMessage(), e);
 			responseBuilder.withMessage(UtilConstant.FAILED+ ": "+e.getMessage())
 			.withStatusCode(HttpStatus.BAD_REQUEST.value());
+		} finally {
+			logCallApiRepo.save(logApi);
 		}
 		return responseBuilder.build();
 	}

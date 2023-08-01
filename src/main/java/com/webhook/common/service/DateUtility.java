@@ -29,4 +29,8 @@ public interface DateUtility {
 	static Date getSystemCurrentDateTime() {
 		return new Date();
 	}
+
+	Date addHourToDate(Date date, int hour);
+
+	Date addHourToNewDate(Date originalDate, int hour);
 }

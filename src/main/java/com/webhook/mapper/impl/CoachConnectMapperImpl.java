@@ -3,6 +3,7 @@ package com.webhook.mapper.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.webhook.constants.UtilConstant;
 import com.webhook.dto.CoachConnectDTO;
 import com.webhook.entity.CoachConnectEntity;
 import com.webhook.mapper.CoachConnectMapper;
@@ -21,6 +22,7 @@ public class CoachConnectMapperImpl implements CoachConnectMapper {
 	@Override
 	public CoachConnectDTO EntityToDto(CoachConnectEntity entity) {
 		CoachConnectDTO dto = modelMapper.map(entity, CoachConnectDTO.class);
+		dto.setCustomerName(entity.getUser().getFirstName()+UtilConstant.SPACE+entity.getUser().getLastName());
 		return dto;
 	}
 

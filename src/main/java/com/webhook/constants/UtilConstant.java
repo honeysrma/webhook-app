@@ -8,8 +8,11 @@ public interface UtilConstant {
 	String STRING_COMMA = ",";
 	String STRING_SEMI_COLON = ":";
 	String AUTHORIZATION = "Authorization";
+	String TOKEN = "Token";
 	String BEARER = "Bearer";
 	String SPACE = " ";
 	String EMPTY = "";
 	int ACTIVE = 1;
+	String INT_ONE_STRING = "1";
+	String TIME_LASPED_MSG = "Time lasped";
 }
