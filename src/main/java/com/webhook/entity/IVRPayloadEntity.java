@@ -35,7 +35,7 @@ public class IVRPayloadEntity {
     @Column(name = "AgentNo" , length = 12)
     private String agentNo;
     
-    @Column(name = "AgentCallStatus")
+    @Column(name = "AgentCallStatus", length = 15)
     private String agentCallStatus;
     
     @Column(name = "AgentCallStartTime")
@@ -49,7 +49,7 @@ public class IVRPayloadEntity {
     @Column(name = "CustomerNo", length = 12)
     private String customerNo;
     
-    @Column(name = "CustomerCallStatus")
+    @Column(name = "CustomerCallStatus", length = 15)
     private String customerCallStatus;
     
     @Column(name = "CustomerCallStartTime")
@@ -60,7 +60,7 @@ public class IVRPayloadEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date customerCallEndTime;
     
-    @Column(name = "CallRecordURL")
+    @Column(name = "CallRecordURL", length = 150)
     private String callRecordURL;
     
     @Column(name = "raw_dataset")
@@ -74,6 +74,9 @@ public class IVRPayloadEntity {
     @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+    
+    @Column(name = "CallSchType", length = 15)
+    private String callSchType;
 
 	public int getId() {
 		return id;
@@ -201,6 +204,14 @@ public class IVRPayloadEntity {
 
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public String getCallSchType() {
+		return callSchType;
+	}
+
+	public void setCallSchType(String callSchType) {
+		this.callSchType = callSchType;
 	}
         
 }

@@ -5,11 +5,13 @@ import java.util.Date;
 import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.webhook.converters.MobileNumberDeserializer;
 
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class IVRPayloadRequestDto {
 
     private int id;
@@ -56,6 +58,9 @@ public class IVRPayloadRequestDto {
     
     @JsonProperty("CallRecordURL")
     private String callRecordURL;
+    
+    @JsonProperty("CallSchType")
+    private String callSchType;
     
     private String rawDataSet;
 
@@ -170,6 +175,14 @@ public class IVRPayloadRequestDto {
 	public void setRawDataSet(String rawDataSet) {
 		this.rawDataSet = rawDataSet;
 	}
+	
+	public String getCallSchType() {
+		return callSchType;
+	}
+
+	public void setCallSchType(String callSchType) {
+		this.callSchType = callSchType;
+	}
 
 	@Override
 	public String toString() {
@@ -177,8 +190,8 @@ public class IVRPayloadRequestDto {
 				+ ", agentNo=" + agentNo + ", agentCallStatus=" + agentCallStatus + ", agentCallStartTime="
 				+ agentCallStartTime + ", agentCallEndTime=" + agentCallEndTime + ", customerNo=" + customerNo
 				+ ", customerCallStatus=" + customerCallStatus + ", customerCallStartTime=" + customerCallStartTime
-				+ ", customerCallEndTime=" + customerCallEndTime + ", callRecordURL=" + callRecordURL + ", rawDataSet="
-				+ rawDataSet + "]";
+				+ ", customerCallEndTime=" + customerCallEndTime + ", callRecordURL=" + callRecordURL + ", callSchType="
+				+ callSchType + ", rawDataSet=" + rawDataSet + "]";
 	}
 
 }
