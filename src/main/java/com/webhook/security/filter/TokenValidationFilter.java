@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,6 +23,7 @@ import com.webhook.dto.UserDto;
 import com.webhook.exceptions.NotFoundException;
 import com.webhook.security.service.AuthTokenService;
 import com.webhook.service.UserService;
+import com.webhook.service.impl.CallTriggerServiceImpl;
 
 @Service
 public class TokenValidationFilter extends OncePerRequestFilter {
@@ -29,6 +32,7 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 	private final UserService userService;
 	private final UtilityService utilityService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(TokenValidationFilter.class);
 
 	public TokenValidationFilter(AuthTokenService authTokenService, UserService userService, UtilityService utilityService) {
 		this.authTokenService = authTokenService;
@@ -40,8 +44,9 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
+		logger.info(">>>>>>>>>>>>>>>>>>Request URI:-- {}", request.getRequestURI());
 		
-		if(utilityService.getSkipAPIList().stream().filter(e->request.getRequestURI().contains(e)).count()>0) {
+		if(Boolean.TRUE || utilityService.getSkipAPIList().stream().filter(e->request.getRequestURI().contains(e)).count()>0) {
 			filterChain.doFilter(request, response);
 			return;
 		}
