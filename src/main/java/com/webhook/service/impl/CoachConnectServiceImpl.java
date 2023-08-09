@@ -121,7 +121,8 @@ public class CoachConnectServiceImpl implements CoachConnectService {
 				reqDto.setAgentNo(ccDto.getMobileNumberCoach().toString());
 				reqDto.setCustomerNo(ccDto.getMobileNumberCustomer().toString());
 				reqDto.setCampId(environment.getProperty(AppConstants.CALL_TRIGGER_API_CAMPID));
-				reqDto.setCustRefNo(environment.getProperty(AppConstants.CALL_TRIGGER_API_CUSTREFNO));
+				//reqDto.setCustRefNo(environment.getProperty(AppConstants.CALL_TRIGGER_API_CUSTREFNO));// bookingId
+				reqDto.setCustRefNo(String.valueOf(bookingId));// bookingId
 				reqDto.setCallsec(String.valueOf(ccDto.getMaxAllowedTime()*60));
 				reqDto.setCallSchType(ConnectType.SCHEDULE.name());
 				reqDto.setCallTime(DateUtility.dateToString(ccDto.getScheduledConnectTime(), DateUtility.FORMAT_CALL_TRIGGER));

@@ -77,6 +77,9 @@ public class IVRPayloadEntity {
     
     @Column(name = "CallSchType", length = 15)
     private String callSchType;
+    
+    @Column(name = "CustTransId", length = 15)
+    private Long custTransId;
 
 	public int getId() {
 		return id;
@@ -213,5 +216,12 @@ public class IVRPayloadEntity {
 	public void setCallSchType(String callSchType) {
 		this.callSchType = callSchType;
 	}
-        
+
+	public Long getCustTransId() {
+		return custTransId;
+	}
+
+	public void setCustTransId(Long custTransId) {
+		this.custTransId = custTransId;
+	}
 }

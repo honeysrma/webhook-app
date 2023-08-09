@@ -62,6 +62,9 @@ public class IVRPayloadRequestDto {
     @JsonProperty("CallSchType")
     private String callSchType;
     
+    @JsonProperty("CustTransId")
+    private Long custTransId;
+    
     private String rawDataSet;
 
 	public int getId() {
@@ -183,6 +186,14 @@ public class IVRPayloadRequestDto {
 	public void setCallSchType(String callSchType) {
 		this.callSchType = callSchType;
 	}
+	
+	public Long getCustTransId() {
+		return custTransId;
+	}
+
+	public void setCustTransId(Long custTransId) {
+		this.custTransId = custTransId;
+	}
 
 	@Override
 	public String toString() {
@@ -191,7 +202,7 @@ public class IVRPayloadRequestDto {
 				+ agentCallStartTime + ", agentCallEndTime=" + agentCallEndTime + ", customerNo=" + customerNo
 				+ ", customerCallStatus=" + customerCallStatus + ", customerCallStartTime=" + customerCallStartTime
 				+ ", customerCallEndTime=" + customerCallEndTime + ", callRecordURL=" + callRecordURL + ", callSchType="
-				+ callSchType + ", rawDataSet=" + rawDataSet + "]";
+				+ callSchType + ", custTransId=" + custTransId + ", rawDataSet=" + rawDataSet + "]";
 	}
 
 }
