@@ -50,5 +50,7 @@ public interface UtilityService {
 	String convertDtoToJson(APIResponseDto apiResponseDto);
 
 	List<String> getSkipAPIList();
+
+	List<String> getAllowedCallTypes();
 	
 }

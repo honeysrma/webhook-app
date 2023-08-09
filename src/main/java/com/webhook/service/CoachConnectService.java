@@ -8,7 +8,7 @@ public interface CoachConnectService {
 
 	APIResponseDto findAllByCoachId(Integer userId);
 
-	APIResponseDto callTriggerOutboundIntegration(Long bookingId);
+	APIResponseDto callTriggerOutboundIntegration(Long bookingId, String status);
 	
 	static ModelMapper getModelMapper() {
 		return new ModelMapper();

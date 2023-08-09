@@ -1,5 +1,7 @@
 package com.webhook.constants;
 
+import com.webhook.enums.ConnectType;
+
 public interface UtilConstant {
 
 	String SUCCESS = "SUCCESS";
@@ -15,4 +17,8 @@ public interface UtilConstant {
 	int ACTIVE = 1;
 	String INT_ONE_STRING = "1";
 	String TIME_LASPED_MSG = "Time lasped";
+	String INVALID_CALL_TYPE = "Invalid CallType";
+	
+	String CONNECT_TYPE_CURRENT = "CURRENT";
+	String CONNECT_TYPE_SCHEDULE = "SCHEDULE";
 }

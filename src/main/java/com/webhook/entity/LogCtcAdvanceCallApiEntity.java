@@ -49,7 +49,7 @@ public class LogCtcAdvanceCallApiEntity {
 	private Long customerMobileNumber;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "connect_type", columnDefinition = "ENUM('CALL','CHAT','VIDEO')")
+	@Column(name = "connect_type", columnDefinition = "ENUM('CALL','CHAT','VIDEO','CURRENT','SCHEDULE')")
 	private ConnectType connectType;
 	
 	@Column(name = "trigger_scheduled_time", nullable = false)

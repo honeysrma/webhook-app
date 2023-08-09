@@ -21,8 +21,9 @@ public class CallTriggerController {
 
 	@PostMapping(value = "/trigger", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<APIResponseDto> insertIVRPayload(
-			@RequestParam(name = "bookindId", required = true) Long bookindId){
-		return ResponseEntity.ok(coachConnectService.callTriggerOutboundIntegration(bookindId));
+			@RequestParam(name = "bookindId", required = true) Long bookindId,
+			@RequestParam(name = "status", required = true) String status){
+		return ResponseEntity.ok(coachConnectService.callTriggerOutboundIntegration(bookindId, status));
 	}
 	
 }

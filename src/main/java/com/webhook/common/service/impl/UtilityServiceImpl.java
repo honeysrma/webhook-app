@@ -1,5 +1,6 @@
 package com.webhook.common.service.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,13 @@ public class UtilityServiceImpl implements UtilityService {
 	@Override
 	public List<String> getSkipAPIList(){
 		return UtilityService.convertStringToList(environment.getProperty(AppConstants.SKIP_APP_API_URL, UtilConstant.EMPTY));
+	}
+	
+	@Override
+	public List<String> getAllowedCallTypes(){
+		 String value = environment.getProperty(AppConstants.CALL_TRIGGER_API_ALLOWTYPE);
+		 return Arrays.asList(value.split(","));
+		
 	}
 	
 }

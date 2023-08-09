@@ -33,4 +33,8 @@ public interface DateUtility {
 	Date addHourToDate(Date date, int hour);
 
 	Date addHourToNewDate(Date originalDate, int hour);
+
+	Date addMinsToNewDate(Date originalDate, int mins);
+
+	Date addSecsToNewDate(Date originalDate, int secs);
 }
