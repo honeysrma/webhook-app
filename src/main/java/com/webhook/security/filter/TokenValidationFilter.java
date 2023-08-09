@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,10 +23,13 @@ import com.webhook.dto.UserDto;
 import com.webhook.exceptions.NotFoundException;
 import com.webhook.security.service.AuthTokenService;
 import com.webhook.service.UserService;
+import com.webhook.service.impl.CallTriggerServiceImpl;
 
 @Service
 public class TokenValidationFilter extends OncePerRequestFilter {
 
+	private static final Logger logger = LoggerFactory.getLogger(TokenValidationFilter.class);
+	
 	private final AuthTokenService authTokenService;
 	private final UserService userService;
 	private final UtilityService utilityService;
@@ -72,6 +77,7 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 		        	throw new NotFoundException("Invalid Token!");
 		        }
 		} catch (Exception e) {
+			logger.error("Exception {}", e.getMessage(), e);
 			APIResponseBuilder builder = new APIResponseBuilder();
 			builder.withStatusCode(HttpServletResponse.SC_BAD_REQUEST).withMessage(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_OK);
