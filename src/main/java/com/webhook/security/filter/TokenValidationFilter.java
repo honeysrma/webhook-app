@@ -45,7 +45,7 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		
+		logger.info("Request URI ---> {}", request.getRequestURI());
 		if(utilityService.getSkipAPIList().stream().filter(e->request.getRequestURI().contains(e)).count()>0) {
 			filterChain.doFilter(request, response);
 			return;
