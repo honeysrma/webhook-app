@@ -12,5 +12,6 @@ public interface AppConstants {
 	String CALL_TRIGGER_API_CURRENT_TIME_GRACE = "call.trigger.api.current.time.grace";
 	
 	String SKIP_APP_API_URL = "skip.app.api.urls";
+	String DEFAULT_AUTHRIZATION_TOKEN = "default.authrization.token";
 
 }
