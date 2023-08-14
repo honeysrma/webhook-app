@@ -41,7 +41,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Your API Documentation").description("Description of your API")
+		return new ApiInfoBuilder().title("Webhook API Documentation").description("Webhook")
 				.version("1.0").build();
 	}
 
