@@ -25,7 +25,7 @@ public class CustomHeaderFilter implements Filter {
             throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        String originHeader = "*;";
+        String originHeader = "*";
 //        originHeader += "https://testpartner.mhealth.ai;";
 //        originHeader += "https://additional.example.com;";
 //        originHeader += "https://testpartner.mhealth.ai;";
