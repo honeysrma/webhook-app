@@ -37,6 +37,7 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.webhook.controllers")) // Set your controller package
 				.paths(PathSelectors.any()).build().apiInfo(apiInfo())
+				//.pathMapping("/rest/**") // Ensure this matches your CORS path
 				.globalOperationParameters(globalOperationParameters());
 	}
 

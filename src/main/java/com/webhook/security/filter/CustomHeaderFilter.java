@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @WebFilter("/*") // Apply the filter to all URLs
-@Order(Ordered.LOWEST_PRECEDENCE - 1)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CustomHeaderFilter implements Filter {
 
 	
@@ -25,8 +25,23 @@ public class CustomHeaderFilter implements Filter {
             throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+        String originHeader = "*;";
+//        originHeader += "https://testpartner.mhealth.ai;";
+//        originHeader += "https://additional.example.com;";
+//        originHeader += "https://testpartner.mhealth.ai;";
+//        originHeader += "https://partner.mhealth.ai;";
+//        originHeader += "https://www.mhealth.ai;";
+//        originHeader += "https://mhealth.ai;";
+//        originHeader += "https://testapi.mhealth.ai;";
+//        originHeader += "https://testapi.mhealth.ai:8081;";
+//        originHeader += "https://w21.mhealth.ai;";
+//        originHeader += "https://walkathon21.com;";
+//        originHeader += "https://www.nutriexpert.io;";
+//        originHeader += "http://testapi.mhealth.ai:8086;";
+//        originHeader += "http://testapi.mhealth.ai;";
+        
         // Add the desired headers to the response
-        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Origin", originHeader);
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         httpResponse.setHeader("Access-Control-Allow-Headers", "*");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
